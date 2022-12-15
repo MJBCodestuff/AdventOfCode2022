@@ -100,5 +100,4 @@ for i, row in enumerate(treesRows):
                 continueSearch = False
         score *= visible
         scenicScores.append(score)
-print(scenicScores)
 print(max(scenicScores))
