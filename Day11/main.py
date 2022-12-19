@@ -66,7 +66,8 @@ def main():
             monkey[i] = rmWords.sub("", monkey[i])
         monkey[1] = list(map(lambda x: int(x), monkey[1].split(" ")))
         # if we modulo every calculation with every testvalue times every testvalue
-        # the result stays manageable and correct ... probably should remember this, might come in handy again
+        # the result modulo testvalue stays manageable and correct
+        # ... probably should remember this, might come in handy again - and took long enough to figure out
         testvalue *= int(monkey[3])
     for monkey in monkeys:
         # Build the monkey - we eval here to save us the overhead of havingg to do it every time
