@@ -1,11 +1,6 @@
 import re
-import numpy as np
 
-CHECK_ROW = 10
-
-
-# Idea: For each y only note down the covered x.
-# Question: What about overlap?
+CHECK_ROW = 2000000
 
 
 def get_manhattan_distance(a: tuple[int, int], b: tuple[int, int]):
@@ -28,6 +23,7 @@ class sensor:
         self.position[0] = self.position[0] + minx
         self.position[1] = self.position[1] + miny
 
+
 def is_Free(point):
     for sensor in sensorlist:
         if sensor.checkIfInRange(point):
@@ -35,7 +31,7 @@ def is_Free(point):
     return True
 
 
-sensorlist = open("example").read().split("\n")
+sensorlist = open("input").read().split("\n")
 remove_superfluous = re.compile(r"(Sensor at x=)|( y=)|( closest beacon is at x=)")
 sensorlist = list(map(lambda x: x.split(":"), list(map(lambda y: remove_superfluous.sub("", y), sensorlist))))
 sensorlist = list(map(lambda x: [x[0].split(","), x[1].split(",")], sensorlist))
@@ -47,39 +43,26 @@ sensorlist = list(
     map(lambda x: sensor(x[0], get_manhattan_distance(x[0], x[1])), sensorlist))
 print(sensorlist)
 
-
 smallestX = 0
-smallestY = 0
 maxNrX = 0
-maxNrY = 0
 for sensor in sensorlist:
     pos = sensor.position
     ran = sensor.range
-    minx = pos[0]-ran
-    miny = pos[1]-ran
-    maxx = pos[0]+ran
-    maxy = pos[1]+ran
+    minx = pos[0] - ran
+    maxx = pos[0] + ran
     if minx < smallestX:
         smallestX = minx
-    if miny < smallestY:
-        smallestY = miny
     if maxx > maxNrX:
         maxNrX = maxx
-    if maxy > maxNrY:
-        maxNrY = maxy
 
-print(smallestX)
-print(smallestY)
-print(maxNrX)
-print(maxNrY)
-toAddX = abs(smallestX)
-toAddY = abs(smallestY)
-maxNrX = maxNrX + toAddX
-maxNrY = maxNrY + toAddY
-print(maxNrX)
-print(maxNrY)
-for sensor in sensorlist:
-    sensor.adjustPos(toAddX, toAddY)
+counter = 0
+# still not very efficient but WORLDS better than the previous attempts
+for i in range(smallestX, maxNrX, 1):
+    if [i, CHECK_ROW] in beaconlist:
+        continue
+    for sensor in sensorlist:
+        if sensor.checkIfInRange((i, CHECK_ROW)):
+            counter += 1
+            break
 
-
-#print(f"Result: The Row where y={CHECK_ROW} has {counter} positions where a beacon can not be present")
+print(f"Result: The Row where y={CHECK_ROW} has {counter} positions where a beacon can not be present")
