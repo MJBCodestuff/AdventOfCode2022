@@ -2,7 +2,7 @@ import re
 
 CHECK_ROW = 2000000
 SEARCH_AREA = 4000000
-USING_FILE = "input"
+USING_FILE = "Day15/input"
 
 def get_manhattan_distance(a: tuple[int, int], b: tuple[int, int]):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
@@ -43,6 +43,7 @@ class sensor:
                 points.append((pos[0] - currx, pos[1] - curry))
             currx -= 1
             curry += 1
+        print("here")
         return points
 
 def is_Free(point):
@@ -97,11 +98,8 @@ def part2(): # idee: berechne was grade so nicht in jedem sensor liegt und vergl
         for item in temp:
             listofCandidates.append(item)
         temp = None
-    answer = None
-    for item in listofCandidates:
-        if is_Free(item):
-            answer = item
-            break
+    listofCandidates = listofCandidates.sort()
+    print(listofCandidates)
     print(f"Result: The beacon is at {answer}. The tuning frequency for this distress beacon is {answer[0]*4000000 + answer[1]}.")
 
 # part1()
