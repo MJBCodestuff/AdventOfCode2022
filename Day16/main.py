@@ -77,9 +77,9 @@ class node:
 
 def assignValue(x):
     if x[0].isOpen():
-        return -1
+        return -100
     else:
-        return x[0].getValue() - x[1]
+        return x[0].getValue() - x[1]*5 # todo accurately assign value
 
 
 nodes = []
